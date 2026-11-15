@@ -1,0 +1,39 @@
+
+import { useState } from "react";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Dashboard from "./pages/Dashboard";
+import Orders from "./pages/Orders";
+import Analytics from "./pages/Analytics";
+import Clients from "./pages/Clients";
+
+const sections = {
+  Обзор: "Общая картина вашего бизнеса.",
+  Аналитика: "Подробные показатели и графики.",
+  Заказы: "Управление заказами и их статусами.",
+  Клиенты: "Информация о ваших клиентах.",
+};
+
+type SectionName = keyof typeof sections;
+
+export default function App() {
+  const [activeSection, setActiveSection] = useState<SectionName>("Обзор");
+
+  return (
+    <div className="app-layout">
+      <Sidebar
+        activeSection={activeSection}
+        onNavigate={(section) => setActiveSection(section as SectionName)}
+      />
+
+      <div className="main-area">
+        <Header />
+
+        {activeSection === "Обзор" && <Dashboard />}
+        {activeSection === "Заказы" && <Orders />}
+        {activeSection === "Аналитика" && <Analytics />}
+        {activeSection === "Клиенты" && <Clients />}
+      </div>
+    </div>
+  );
+}
